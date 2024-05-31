@@ -200,7 +200,7 @@ impl Attachment {
                         record_id,
                         record_type,
                         name,
-                        user_id
+                        user_id,
                     },
                 )?;
 
