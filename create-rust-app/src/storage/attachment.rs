@@ -59,8 +59,8 @@ impl Attachment {
     pub async fn attach(
         db: &mut Connection,
         storage: &Storage,
-        name: String,
         user_id: ID,
+        name: String,
         record_type: String,
         record_id: ID,
         data: AttachmentData,
