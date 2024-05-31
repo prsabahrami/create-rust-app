@@ -14,6 +14,7 @@ table! {
 table! {
   attachments (id) {
       id -> Integer,
+      user_id -> Integer,
       name -> Text,
       record_type -> Text,
       record_id -> Integer,

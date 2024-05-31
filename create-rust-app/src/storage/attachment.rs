@@ -23,6 +23,7 @@ use super::{schema::attachments, Storage};
 pub struct Attachment {
     pub id: ID,
 
+    pub user_id: ID,
     pub name: String,
     pub record_type: String,
     pub record_id: ID,
@@ -35,6 +36,7 @@ pub struct Attachment {
 #[derive(Debug, Serialize, Deserialize, Clone, Insertable, AsChangeset)]
 #[diesel(table_name=attachments)]
 pub struct AttachmentChangeset {
+    pub user_id: ID,
     pub name: String,
     pub record_type: String,
     pub record_id: ID,
@@ -58,6 +60,7 @@ impl Attachment {
         db: &mut Connection,
         storage: &Storage,
         name: String,
+        user_id: ID,
         record_type: String,
         record_id: ID,
         data: AttachmentData,
@@ -108,6 +111,7 @@ impl Attachment {
                     record_id,
                     record_type,
                     name,
+                    user_id,
                 },
             )?;
 
@@ -196,6 +200,7 @@ impl Attachment {
                         record_id,
                         record_type,
                         name,
+                        user_id
                     },
                 )?;
 
