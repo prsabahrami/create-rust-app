@@ -78,7 +78,7 @@ async fn create(db: Data<Database>, store: Data<Storage>, mut payload: Multipart
                     data.extend_from_slice(&chunk.unwrap()[..]);
                 }
 
-                let attached_req = Attachment::attach(&mut db, &store, "file".to_string(), "NULL".to_string(), 0, AttachmentData {
+                let attached_req = Attachment::attach(&mut db, &store, 0, "file".to_string(), "NULL".to_string(), 0, AttachmentData {
                     data,
                     file_name
                 }, true, false).await;
