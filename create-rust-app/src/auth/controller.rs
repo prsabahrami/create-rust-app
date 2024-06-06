@@ -163,25 +163,17 @@ pub fn get_sessions(
 }
 
 pub fn get_user(access_token: AccessToken) -> Result<ID, (StatusCode, Message)> {
-
     let user_id = match decode::<AccessTokenClaims>(
         &access_token,
         &DecodingKey::from_secret(std::env::var("SECRET_KEY").unwrap().as_ref()),
         &Validation::default(),
     ) {
-        Ok(token)
-            if token
-                .claims
-                .token_type
-                .eq_ignore_ascii_case("access_token") =>
-        {
+        Ok(token) if token.claims.token_type.eq_ignore_ascii_case("access_token") => {
             token.claims.sub
         }
         _ => return Err((401, "Invalid token.")),
     };
-
     Ok(user_id)
-
 }
 
 /// /sessions/{id}
