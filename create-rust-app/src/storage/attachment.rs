@@ -72,7 +72,12 @@ impl Attachment {
         let content_type = file_name
             .and_then(|f| mime_guess::from_path(f).first_raw())
             .map(std::string::ToString::to_string);
-        let key = Uuid::new_v4().to_string();
+        // add user_id to the key to prevent collisions
+
+        let mut key: String = "".to_owned();
+        key.push_str(&user_id.to_string());
+        key.push('/');
+        key.push_str(&Uuid::new_v4().to_string());
 
         if !allow_multiple {
             if let Ok(existing) =
