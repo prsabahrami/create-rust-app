@@ -85,7 +85,7 @@ impl Attachment {
             {
                 // one already exists, we need to delete it
                 if overwrite_existing {
-                    Self::detach(db, storage, existing.id).await.map_err(|_| {
+                    Self::detach(db, storage, existing.id, user_id).await.map_err(|_| {
                         format!("Could not detach the existing attachment for '{name}' attachment on '{record_type}'", name=name.clone(), record_type=record_type.clone())
                     })?;
                 } else {
@@ -137,7 +137,7 @@ impl Attachment {
         if upload_result.is_err() {
             // attempt to delete the attachment
             // if it fails, it fails
-            Self::detach(db, storage, attached.id).await?;
+            Self::detach(db, storage, attached.id, user_id).await?;
         }
 
         upload_result
