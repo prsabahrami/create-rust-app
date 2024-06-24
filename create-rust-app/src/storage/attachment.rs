@@ -237,10 +237,14 @@ impl Attachment {
     /// # Errors
     /// * Diesel error
     #[cfg(feature = "backend_actix-web")]
-    pub async fn detach(db: &mut Connection, storage: &Storage, item_id: ID) -> Result<(), String> {
+    pub async fn detach(db: &mut Connection, storage: &Storage, item_id: ID, user_id: ID) -> Result<(), String> {
         let attached = Self::find_by_id(db, item_id).map_err(|_| "Could not load attachment")?;
         let blob = AttachmentBlob::find_by_id(db, attached.blob_id)
             .map_err(|_| "Could not load attachment blob")?;
+
+        if user_id != attached.user_id {
+            return Err("You do not have permission to delete this attachment".to_string());
+        }
 
         let delete_result = storage.delete(blob.key.clone()).await;
 
